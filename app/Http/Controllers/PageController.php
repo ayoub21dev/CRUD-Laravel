@@ -39,4 +39,8 @@ class PageController extends Controller
             'article' => $article,
         ]);
     }
+
+    function contact(): view {
+        return view('contact', ['title' => 'Contactez-nous']);
+   }
 }
