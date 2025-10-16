@@ -6,4 +6,4 @@ Route::get('/', function () {
     return view('welcome');
 });
  
-Route ::get('/ayoub',fn()=>'ayoub');
+Route ::get('/ping',fn()=>'pong');
