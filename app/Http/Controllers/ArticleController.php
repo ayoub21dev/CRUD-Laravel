@@ -2,34 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreArticleRequest;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    /**
+     * Display the article creation form
+     */
     public function create()
     {
-        // Affiche la vue du formulaire
         return view('articles.create');
     }
 
-    public function store(Request $request)
-    {
-        // Étape 1 — Validation des données
-        // Cette méthode vérifie les champs envoyés selon les règles définies
-        $validated = $request->validate([
-            'title'   => ['required','string','min:3','max:150'],
-            'slug'    => ['nullable','string','max:180'],
-            'content' => ['nullable','string'],
-            'tags'    => ['nullable','string'],
-        ], [
-            'title.required' => 'Le titre est obligatoire.',
-            'title.min'      => 'Le titre doit contenir au moins :min caractères.',
-            'title.max'      => 'Le titre doit contenir au plus :max caractères.',
-        ]);
 
-        // Étape 2 — Sauvegarde des données
-        return back()
-            ->withInput()
-            ->with('status', 'Formulaire reçu avec succès ! (La sauvegarde sera ajoutée au chapitre 3.1.5)');
+    public function store(StoreArticleRequest $request)
+    {
+     
+        return redirect()
+            ->route('articles.create')
+            ->with('status', 'Form submitted successfully! (Database saving will be added in chapter 3.1.5)');
     }
 }
