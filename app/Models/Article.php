@@ -10,16 +10,11 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'slug', 'excerpt', 'views', 'published',
+        'title', 'slug', 'excerpt', 'content', 'views', 'published',
     ];
 
     protected $casts = [
         'views'     => 'integer',
         'published' => 'boolean',
     ];
-
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }
 }

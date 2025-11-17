@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-  <h1>Créer un article</h1>
+  <h1>Modifier : {{ $article->title }}</h1>
 
   @if ($errors->any())
     <div style="background:#fef2f2;border:1px solid #fecaca;padding:.75rem;margin-bottom:1rem;border-radius:.25rem;">
@@ -14,7 +14,8 @@
     </div>
   @endif
 
-  <form method="POST" action="{{ route('articles.store') }}" novalidate>
+  <form method="POST" action="{{ route('articles.update', $article) }}" novalidate>
+    @method('PUT')
     @include('articles._form')
     <button type="submit" style="padding:.5rem 1rem;background:#111;color:#fff;border:none;">Enregistrer</button>
   </form>
