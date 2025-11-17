@@ -25,6 +25,7 @@
 
   <hr>
   <footer>
+
     Laravel • {{ now()->format('d/m/Y H:i') }} • {{ config('app.timezone') }}
   </footer>
 </body>
