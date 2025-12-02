@@ -1,26 +1,34 @@
 @csrf
 
-<div style="margin-bottom:.75rem;">
-  <label for="title">Titre</label>
-  <input id="title" name="title" type="text" value="{{ old('title') }}" style="width:100%;padding:.5rem;border:1px solid #ccc;">
-  @error('title')
-    <div style="color:#b91c1c;font-size:.875rem;">{{ $message }}</div>
-  @enderror
-</div>
+<div class="space-y-6">
+  <div>
+    <label for="title" class="block text-sm font-medium text-gray-700">Titre</label>
+    <div class="mt-1">
+      <input type="text" name="title" id="title" value="{{ old('title', $article->title ?? '') }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Titre de l'article">
+    </div>
+    @error('title')
+      <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+  </div>
 
-<div style="margin-bottom:.75rem;">
-  <label for="slug">Slug</label>
-  <input id="slug" name="slug" type="text" value="{{ old('slug') }}" style="width:100%;padding:.5rem;border:1px solid #ccc;">
-  @error('slug')
-    <div style="color:#b91c1c;font-size:.875rem;">{{ $message }}</div>
-  @enderror
-</div>
+  <div>
+    <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
+    <div class="mt-1">
+      <input type="text" name="slug" id="slug" value="{{ old('slug', $article->slug ?? '') }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="slug-de-l-article">
+    </div>
+    @error('slug')
+      <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+  </div>
 
-<div style="margin-bottom:.75rem;">
-  <label for="content">Contenu</label>
-  <textarea id="content" name="content" rows="6" style="width:100%;padding:.5rem;border:1px solid #ccc;">{{ old('content') }}</textarea>
-  @error('content')
-    <div style="color:#b91c1c;font-size:.875rem;">{{ $message }}</div>
-  @enderror
+  <div>
+    <label for="content" class="block text-sm font-medium text-gray-700">Contenu</label>
+    <div class="mt-1">
+      <textarea id="content" name="content" rows="6" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Contenu de l'article">{{ old('content', $article->content ?? '') }}</textarea>
+    </div>
+    @error('content')
+      <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+  </div>
 </div>
 

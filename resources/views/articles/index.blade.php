@@ -1,44 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-  <h1>Articles</h1>
-
-  @if (session('status'))
-    <div style="background:#e6ffed;border:1px solid #86efac;padding:.5rem;margin-bottom:1rem;">
-      {{ session('status') }}
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-3xl font-bold leading-tight text-gray-900">Articles</h1>
+      <p class="mt-2 text-sm text-gray-700">Une liste de tous les articles de votre blog.</p>
     </div>
-  @endif
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <a href="{{ route('articles.create') }}" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+        + Nouvel article
+      </a>
+    </div>
+  </div>
 
-  <a href="{{ route('articles.create') }}" style="display:inline-block;margin-bottom:1rem;padding:.5rem 1rem;background:#111;color:#fff;text-decoration:none;">+ Nouvel article</a>
+  <div class="mt-8 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Titre</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Slug</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              @forelse ($articles as $a)
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ $a->title }}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $a->slug }}</td>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                    <a href="{{ route('articles.edit', $a) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</a>
+                    <form action="{{ route('articles.destroy', $a) }}" method="POST" class="inline-block">
+                      @csrf @method('DELETE')
+                      <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</button>
+                    </form>
+                  </td>
+                </tr>
+              @empty
+                <tr>
+                  <td colspan="3" class="px-3 py-4 text-sm text-gray-500 text-center">Aucun article disponible.</td>
+                </tr>
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <table style="width:100%;border-collapse:collapse;">
-    <thead>
-      <tr>
-        <th style="border-bottom:1px solid #ccc;text-align:left;">Titre</th>
-        <th style="border-bottom:1px solid #ccc;text-align:left;">Slug</th>
-        <th style="border-bottom:1px solid #ccc;">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @forelse ($articles as $a)
-        <tr>
-          <td>{{ $a->title }}</td>
-          <td>{{ $a->slug }}</td>
-          <td style="text-align:center;">
-            <a href="{{ route('articles.edit', $a) }}">✏️</a>
-            <form action="{{ route('articles.destroy', $a) }}" method="POST" style="display:inline;">
-              @csrf @method('DELETE')
-              <button type="submit" onclick="return confirm('Supprimer ?')">🗑️</button>
-            </form>
-          </td>
-        </tr>
-      @empty
-        <tr><td colspan="3">Aucun article disponible.</td></tr>
-      @endforelse
-    </tbody>
-  </table>
-
-  <div style="margin-top:1rem;">
+  <div class="mt-4">
     {{ $articles->links() }}
   </div>
 @endsection
