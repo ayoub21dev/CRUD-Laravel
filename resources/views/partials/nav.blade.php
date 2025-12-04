@@ -5,15 +5,40 @@
   <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-indigo-600 font-semibold' : 'text-gray-500 hover:text-gray-900' }} px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Contact</a>
 
   @guest
-    <a href="{{ route('login') }}" class="{{ request()->routeIs('login') ? 'text-indigo-600 font-semibold' : 'text-gray-500 hover:text-gray-900' }} px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Connexion</a>
-    <a href="{{ route('register') }}" class="{{ request()->routeIs('register') ? 'text-indigo-600 font-semibold' : 'text-gray-500 hover:text-gray-900' }} px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Inscription</a>
+    {{-- Liens pour les invités (non connectés) --}}
+    <a href="{{ route('login') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Connexion</a>
+    <a href="{{ route('register') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Inscription</a>
   @else
-    <div class="relative flex items-center ml-4">
-      <span class="text-gray-700 text-sm font-medium mr-4">{{ Auth::user()->name }}</span>
-      <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit" class="text-gray-500 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Déconnexion</button>
-      </form>
+    {{-- Liens pour les utilisateurs connectés --}}
+    <div class="flex items-center space-x-4">
+        {{-- Lien vers Admin (visible pour tous les connectés) --}}
+        <a href="{{ route('admin.dashboard') }}"
+           class="text-sm font-medium text-gray-700 hover:text-gray-900">
+            Tableau de bord
+        </a>
+
+        {{-- Profil utilisateur avec badge --}}
+        <div class="flex items-center space-x-3">
+            <span class="text-sm text-gray-700">
+                Bonjour, {{ Auth::user()->name }}
+            </span>
+
+            @if (Auth::user()->is_admin)
+                <span class="inline-flex items-center rounded-full bg-red-600 px-2.5 py-0.5 text-xs font-semibold text-white">
+                    Admin
+                </span>
+            @else
+                <span class="inline-flex items-center rounded-full bg-sky-600 px-2.5 py-0.5 text-xs font-semibold text-white">
+                    Auteur
+                </span>
+            @endif
+        </div>
+
+        {{-- Bouton Déconnexion --}}
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="text-gray-500 hover:text-red-600 text-sm font-medium">Déconnexion</button>
+        </form>
     </div>
   @endguest
 </nav>
