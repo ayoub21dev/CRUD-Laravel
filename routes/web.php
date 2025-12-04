@@ -12,5 +12,6 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::resource('articles', ArticleController::class)->except(['show']);
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/admin', function () {return view('admin.dashboard');})->middleware('auth')->name('admin.dashboard');
